@@ -19,13 +19,22 @@ document.addEventListener('keydown', (event) => {
         tanjiroY += 10;
         tanjiroContainer.style.top = `${tanjiroY}px`;
     }
+
+    console.log(`Tanjiro Position: (${tanjiroX}, ${tanjiroY})`);
+    if(tanjiroX<=150){
+        alert('Congratulations! Tanjiro has reached Rui and saved Nezuko!');
+        tanjiroX = 1350;
+        tanjiroY = 100;
+        tanjiroContainer.style.left = `${tanjiroX}px`;
+        tanjiroContainer.style.top = `${tanjiroY}px`;
+    }
 });
 
 
 function createBloodThread():void{
     let bloodThreadX:number=0;
     const thread = document.createElement('div');
-    thread.className = 'absolute border-2 border-black rounded-full text-center text-lg';
+    thread.className = 'absolute border-2 border-black rounded-full text-center text-lg z-3';
     // thread.textContent = '🕸️';
     thread.style.backgroundImage = 'url(./asset/image/spiderweb.png)';
     thread.style.backgroundSize = 'cover';
@@ -38,7 +47,7 @@ function createBloodThread():void{
     const webMoveInterval = setInterval(() => {
         bloodThreadX +=5;
         thread.style.left = `${bloodThreadX}px`;
-        if (bloodThreadX > 1300) {
+        if (bloodThreadX > 1200) {
           thread.remove();
           clearInterval(webMoveInterval);
         }
@@ -48,10 +57,14 @@ function createBloodThread():void{
             alert('Tanjiro has been caught by Rui\'s Blood Thread! Game Over!');
             bloodThreadX = 1400; // Move the thread out of bounds to stop further checks
             thread.remove();
+            tanjiroX = 1350;
+            tanjiroY = 100;
+            tanjiroContainer.style.left = `${tanjiroX}px`;
+            tanjiroContainer.style.top = `${tanjiroY}px`;
         };
     }, 10);
 
 
 }
 
-setInterval(createBloodThread, 2000);
+setInterval(createBloodThread, 200);
