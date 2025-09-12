@@ -26,12 +26,40 @@
             font-family: 'AB Cave', sans-serif;
         }
     </style>
+    <link rel="stylesheet" href="./css/tanjiroRui.css">
 </head>
 <body>
-    <header class="font-ab-cave">This is the Header</header>
-    <main class="font-ab-cave">This is the Main</main>
-    <footer class="font-ab-cave">This is the Footer</footer>
+    <header class="font-ab-cave p-3 shadow-lg sticky top-0 flex justify-between items-center bg-white z-10">
+        <nav>
+            <span class="ml-2"><a href="#">Home</a></span>
+            <span class="ml-2"><a href="#">About</a></span>
+            <span class="ml-2"><a href="#">Game</a></span>
+            <span class="ml-2"><a href="#">Contact</a></span>
+        </nav>
+        <span>
+            <img src="./asset/image/demonslayerlogo.png" alt="Demon Slayer Logo" class="h-12 mx-auto">
+        </span>
+        <span class="">
+            <span class="ml-2"><a href="#"><i class="fa-solid fa-magnifying-glass"></i></a></span>
+            <span class="ml-2"><a href="#"><i class="fa-solid fa-user" class="ml-2"></i></a></span>
+        </span>
+    </header>
+    <br><br>
+    <main class="font-ab-cave">
+        <div class="text-center"><h1 class="font-ab-cave text-6xl italic">Tanjiro vs Rui</h1></div>
+        <div class="text-center text-2xl">Help Tanjiro Defeat Rui and Save Nezuko!</div>
+        <div>
+            <div id="game" class="relative w-[95%] h-[55vh] bg-gray-300 border-2 border-black p-5 mx-auto mt-5">
+                <div id="chicken" class="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-yellow-500 rounded-full text-center text-lg">🐔</div>
+                <div id="message" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-2 hidden"></div>
+            </div>
+        </div>
+    </main>
+    <br><br>
+    <footer class="font-ab-cave sticky bottom-0 bg-white p-5">
+        <div class="text-center">&#169;VincentSim2025</div>
+    </footer>
     
-    <script src="./ts/script.js"></script>
+    <script src="./ts/tanjiroRui.js"></script>
 </body>
 </html>
