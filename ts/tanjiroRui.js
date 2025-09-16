@@ -7,6 +7,7 @@ var overlay = document.getElementById('overlay');
 var nextLevelButton = document.getElementById('nextLevelButton');
 var duelLevelMeter = document.getElementById('duelLevelMeter');
 ;
+var webProducingStarter = 3000;
 var webProducingTime = 3000;
 var tanjiroX = 1350;
 var tanjiroY = 100;
@@ -52,7 +53,6 @@ document.addEventListener("keydown", function (event) {
             }
             break;
     }
-    console.log("Tanjiro Position: (".concat(tanjiroX, ", ").concat(tanjiroY, ")"));
     if (tanjiroX <= 150) {
         // alert('Congratulations! Tanjiro has reached Rui and saved Nezuko!');
         tanjiroX = 1350;
@@ -80,7 +80,7 @@ function createBloodThread() {
     thread.style.width = '50px';
     thread.style.height = '50px';
     thread.style.left = "-100px";
-    thread.style.top = "".concat(Math.floor(Math.random() * 350), "px");
+    thread.style.top = "".concat(Math.floor(Math.random() * 330), "px");
     game.appendChild(thread);
     var webMoveInterval = setInterval(function () {
         bloodThreadX += 5;
@@ -108,7 +108,8 @@ duelLevelMeter.textContent = duelLevel.toString();
 function nextLevel() {
     duelLevel += 1;
     duelLevelMeter.textContent = duelLevel.toString();
-    webProducingTime = webProducingTime - duelLevel * 500;
+    webProducingTime = webProducingStarter - duelLevel * 500;
+    console.log(webProducingTime);
     messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.classList.remove('hidden');
     clearInterval(bloodInterval);
     bloodInterval = setInterval(createBloodThread, webProducingTime);
