@@ -108,7 +108,14 @@ duelLevelMeter.textContent = duelLevel.toString();
 function nextLevel() {
     duelLevel += 1;
     duelLevelMeter.textContent = duelLevel.toString();
-    webProducingTime = webProducingStarter - duelLevel * 500;
+    if (duelLevel > 5) {
+        webProducingTime = webProducingStarter / duelLevel;
+        console.log(webProducingTime);
+    }
+    else if (duelLevel <= 5) {
+        webProducingTime = webProducingStarter - duelLevel * 500;
+        console.log(webProducingTime);
+    }
     console.log(webProducingTime);
     messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.classList.remove('hidden');
     clearInterval(bloodInterval);
