@@ -7,10 +7,13 @@ const messageContainer = document.getElementById('messageContainer') as HTMLDivE
 const overlay = document.getElementById('overlay') as HTMLDivElement|null;
 const nextLevelButton = document.getElementById('nextLevelButton') as HTMLButtonElement|null;
 const tryAgainButton = document.getElementById('tryAgainButton') as HTMLButtonElement|null;
+const webCounterDisplay = document.getElementById('webCounterDisplay') as HTMLParagraphElement|null;
+const swordSlashEffect = document.getElementById('swordSlashEffect') as HTMLImageElement|null;
+const swordSlashEffect2 = document.getElementById('swordSlashEffect2') as HTMLImageElement|null;
 let duelResultTitle = document.getElementById('duelResultTitle') as HTMLHeadingElement|null;
 let duelResultDescription = document.getElementById('duelResultDescription') as HTMLParagraphElement|null;
 let duelLevelMeter:any = document.getElementById('duelLevelMeter');
-
+let webCounter:number = 0;
 
 const webProducingStarter:number = 3000;
 let webProducingTime:number = 3000;
@@ -68,6 +71,10 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
       let newTanjiroY:number =tanjiroY;
       tanjiroContainer?.classList.remove('bg-yellow-500');
       tanjiroContainer?.classList.add('bg-red-500');
+      swordSlashEffect?.classList.remove('hidden');
+      swordSlashEffect?.classList.add('slash');
+      swordSlashEffect2?.classList.remove('hidden');
+      swordSlashEffect2?.classList.add('slash2');
       console.log(tanjiroY);
       console.log(newTanjiroY);
       tanjiroY=-30;
@@ -77,6 +84,10 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
           tanjiroContainer?.classList.remove('bg-red-500');
           tanjiroContainer?.classList.add('bg-yellow-500');
           keyLocked=false;
+          swordSlashEffect?.classList.add('hidden');
+          swordSlashEffect?.classList.remove('slash');
+          swordSlashEffect2?.classList.add('hidden');
+          swordSlashEffect2?.classList.remove('slash2');
           // tanjiroContainer.style.left = `${tanjiroX}%`;
           // tanjiroContainer.style.top = `${tanjiroY}%`;
       }, 700);
@@ -93,6 +104,7 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
         nextLevelButton!.classList.remove('hidden');
         duelResultTitle!.textContent = 'You Win!';
         duelResultDescription!.textContent = ' Tanjiro has saved Nezuko from Rui!';
+        webCounterDisplay!.textContent = `Total Blood Threads Dodged: ${webCounter}`;
 
 
         // message!.innerHTML = ''; // Clear previous messages
@@ -114,6 +126,7 @@ messageContainer?.addEventListener('click', (e) => {
 
 
 function createBloodThread():void{
+    webCounter++;
     let bloodThreadX:number=0;
     const thread = document.createElement('div');
     thread.className = 'absolute border-2 border-black rounded-full text-center text-lg z-3';
@@ -141,6 +154,7 @@ function createBloodThread():void{
             duelResultTitle!.textContent = 'Game Over!';
             duelResultDescription!.textContent = ' Tanjiro has been caught by Rui\'s Blood Thread !';
             bloodThreadX = 100; // Move the thread out of bounds to stop further checks
+            webCounterDisplay!.textContent = `Total Blood Threads Dodged: ${webCounter-1}`;
             thread.remove();
             tanjiroX = 97;
             tanjiroY = 20;

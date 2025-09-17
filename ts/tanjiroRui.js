@@ -7,9 +7,13 @@ var messageContainer = document.getElementById('messageContainer');
 var overlay = document.getElementById('overlay');
 var nextLevelButton = document.getElementById('nextLevelButton');
 var tryAgainButton = document.getElementById('tryAgainButton');
+var webCounterDisplay = document.getElementById('webCounterDisplay');
+var swordSlashEffect = document.getElementById('swordSlashEffect');
+var swordSlashEffect2 = document.getElementById('swordSlashEffect2');
 var duelResultTitle = document.getElementById('duelResultTitle');
 var duelResultDescription = document.getElementById('duelResultDescription');
 var duelLevelMeter = document.getElementById('duelLevelMeter');
+var webCounter = 0;
 var webProducingStarter = 3000;
 var webProducingTime = 3000;
 var tanjiroX = 95;
@@ -61,6 +65,10 @@ document.addEventListener("keydown", function (event) {
             var newTanjiroY_1 = tanjiroY;
             tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.remove('bg-yellow-500');
             tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.add('bg-red-500');
+            swordSlashEffect === null || swordSlashEffect === void 0 ? void 0 : swordSlashEffect.classList.remove('hidden');
+            swordSlashEffect === null || swordSlashEffect === void 0 ? void 0 : swordSlashEffect.classList.add('slash');
+            swordSlashEffect2 === null || swordSlashEffect2 === void 0 ? void 0 : swordSlashEffect2.classList.remove('hidden');
+            swordSlashEffect2 === null || swordSlashEffect2 === void 0 ? void 0 : swordSlashEffect2.classList.add('slash2');
             console.log(tanjiroY);
             console.log(newTanjiroY_1);
             tanjiroY = -30;
@@ -70,6 +78,10 @@ document.addEventListener("keydown", function (event) {
                 tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.remove('bg-red-500');
                 tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.add('bg-yellow-500');
                 keyLocked = false;
+                swordSlashEffect === null || swordSlashEffect === void 0 ? void 0 : swordSlashEffect.classList.add('hidden');
+                swordSlashEffect === null || swordSlashEffect === void 0 ? void 0 : swordSlashEffect.classList.remove('slash');
+                swordSlashEffect2 === null || swordSlashEffect2 === void 0 ? void 0 : swordSlashEffect2.classList.add('hidden');
+                swordSlashEffect2 === null || swordSlashEffect2 === void 0 ? void 0 : swordSlashEffect2.classList.remove('slash2');
                 // tanjiroContainer.style.left = `${tanjiroX}%`;
                 // tanjiroContainer.style.top = `${tanjiroY}%`;
             }, 700);
@@ -85,6 +97,7 @@ document.addEventListener("keydown", function (event) {
         nextLevelButton.classList.remove('hidden');
         duelResultTitle.textContent = 'You Win!';
         duelResultDescription.textContent = ' Tanjiro has saved Nezuko from Rui!';
+        webCounterDisplay.textContent = "Total Blood Threads Dodged: ".concat(webCounter);
         // message!.innerHTML = ''; // Clear previous messages
         // let pMessage = document.createElement('p');
         // pMessage.textContent = 'You Win! Tanjiro has saved Nezuko from Rui!';
@@ -99,6 +112,7 @@ messageContainer === null || messageContainer === void 0 ? void 0 : messageConta
     }
 });
 function createBloodThread() {
+    webCounter++;
     var bloodThreadX = 0;
     var thread = document.createElement('div');
     thread.className = 'absolute border-2 border-black rounded-full text-center text-lg z-3';
@@ -123,6 +137,7 @@ function createBloodThread() {
             duelResultTitle.textContent = 'Game Over!';
             duelResultDescription.textContent = ' Tanjiro has been caught by Rui\'s Blood Thread !';
             bloodThreadX = 100; // Move the thread out of bounds to stop further checks
+            webCounterDisplay.textContent = "Total Blood Threads Dodged: ".concat(webCounter - 1);
             thread.remove();
             tanjiroX = 97;
             tanjiroY = 20;
