@@ -1,5 +1,6 @@
 var game = document.getElementById('game');
 var tanjiroContainer = document.getElementById('tanjiroContainer');
+var tanjiroImage = document.getElementById('tanjiroImage');
 var ruiContainer = document.getElementById('ruiContainer');
 var message = document.getElementById('message');
 var messageContainer = document.getElementById('messageContainer');
@@ -9,8 +10,8 @@ var duelLevelMeter = document.getElementById('duelLevelMeter');
 ;
 var webProducingStarter = 3000;
 var webProducingTime = 3000;
-var tanjiroX = 1350;
-var tanjiroY = 100;
+var tanjiroX = 95;
+var tanjiroY = 20;
 // document.addEventListener('keydown', (event) => {
 //     if (event.key === 'ArrowRight' && tanjiroX<1350) {
 //         tanjiroX += 10;
@@ -26,39 +27,50 @@ var tanjiroY = 100;
 //         tanjiroContainer.style.top = `${tanjiroY}px`;
 //     }
 // });
+var Direction;
+(function (Direction) {
+    Direction[Direction["ArrowUp"] = 0] = "ArrowUp";
+    Direction[Direction["ArrowDown"] = 1] = "ArrowDown";
+    Direction[Direction["ArrowLeft"] = 2] = "ArrowLeft";
+    Direction[Direction["ArrowRight"] = 3] = "ArrowRight";
+})(Direction || (Direction = {}));
+tanjiroContainer.style.left = "".concat(tanjiroX, "%");
+tanjiroContainer.style.top = "".concat(tanjiroY, "%");
+tanjiroImage.style.width = '3em';
+tanjiroImage.style.height = '4em';
 document.addEventListener("keydown", function (event) {
     switch (event.key) {
         case "ArrowRight":
-            if (tanjiroX < 1350) {
-                tanjiroX += 10;
-                tanjiroContainer.style.left = "".concat(tanjiroX, "px");
+            if (tanjiroX < 100) {
+                tanjiroX += 1;
+                tanjiroContainer.style.left = "".concat(tanjiroX, "%");
             }
             break;
         case "ArrowLeft":
             if (tanjiroX > 0) {
-                tanjiroX -= 10;
-                tanjiroContainer.style.left = "".concat(tanjiroX, "px");
+                tanjiroX -= 1;
+                tanjiroContainer.style.left = "".concat(tanjiroX, "%");
             }
             break;
         case "ArrowUp":
             if (tanjiroY > 0) {
-                tanjiroY -= 10;
-                tanjiroContainer.style.top = "".concat(tanjiroY, "px");
+                tanjiroY -= 1;
+                tanjiroContainer.style.top = "".concat(tanjiroY, "%");
             }
             break;
         case "ArrowDown":
-            if (tanjiroY < 300) {
-                tanjiroY += 10;
-                tanjiroContainer.style.top = "".concat(tanjiroY, "px");
+            if (tanjiroY < 90) {
+                tanjiroY += 1;
+                tanjiroContainer.style.top = "".concat(tanjiroY, "%");
             }
             break;
     }
-    if (tanjiroX <= 150) {
+    if (tanjiroX <= 10) {
         // alert('Congratulations! Tanjiro has reached Rui and saved Nezuko!');
-        tanjiroX = 1350;
-        tanjiroY = 100;
-        tanjiroContainer.style.left = "".concat(tanjiroX, "px");
-        tanjiroContainer.style.top = "".concat(tanjiroY, "px");
+        tanjiroX = 95;
+        tanjiroY = 20;
+        tanjiroContainer.style.left = "".concat(tanjiroX, "%");
+        tanjiroContainer.style.top = "".concat(tanjiroY, "%");
         messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.classList.remove('hidden');
         // let pMessage = document.createElement('p');
         // pMessage.textContent = 'You Win! Tanjiro has saved Nezuko from Rui!';
@@ -79,28 +91,28 @@ function createBloodThread() {
     thread.style.backgroundSize = 'cover';
     thread.style.width = '50px';
     thread.style.height = '50px';
-    thread.style.left = "-100px";
-    thread.style.top = "".concat(Math.floor(Math.random() * 330), "px");
+    thread.style.left = "-10%";
+    thread.style.top = "".concat(Math.floor(Math.random() * 90), "%");
     game.appendChild(thread);
     var webMoveInterval = setInterval(function () {
-        bloodThreadX += 5;
-        thread.style.left = "".concat(bloodThreadX, "px");
-        if (bloodThreadX > 1200) {
+        bloodThreadX += 1;
+        thread.style.left = "".concat(bloodThreadX, "%");
+        if (bloodThreadX > 90) {
             thread.remove();
             clearInterval(webMoveInterval);
         }
         // Collision detection
-        if (bloodThreadX >= tanjiroX && bloodThreadX <= tanjiroX + 60 && parseInt(thread.style.top.replace('px', '')) >= tanjiroY && parseInt(thread.style.top.replace('px', '')) <= tanjiroY + 60) {
+        if (bloodThreadX >= tanjiroX && bloodThreadX <= tanjiroX + 3 && parseInt(thread.style.top.replace('%', '')) >= tanjiroY - 13 && parseInt(thread.style.top.replace('%', '')) <= tanjiroY + 18) {
             alert('Tanjiro has been caught by Rui\'s Blood Thread! Game Over!');
-            bloodThreadX = 1400; // Move the thread out of bounds to stop further checks
+            bloodThreadX = 100; // Move the thread out of bounds to stop further checks
             thread.remove();
-            tanjiroX = 1350;
-            tanjiroY = 100;
-            tanjiroContainer.style.left = "".concat(tanjiroX, "px");
-            tanjiroContainer.style.top = "".concat(tanjiroY, "px");
+            tanjiroX = 95;
+            tanjiroY = 20;
+            tanjiroContainer.style.left = "".concat(tanjiroX, "%");
+            tanjiroContainer.style.top = "".concat(tanjiroY, "%");
         }
         ;
-    }, 10);
+    }, 100);
 }
 var bloodInterval = setInterval(createBloodThread, webProducingTime);
 var duelLevel = 1;

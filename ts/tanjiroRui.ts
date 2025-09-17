@@ -1,5 +1,6 @@
 const game = document.getElementById('game') as HTMLDivElement|null;
 const tanjiroContainer = document.getElementById('tanjiroContainer') as HTMLDivElement|null;
+const tanjiroImage = document.getElementById('tanjiroImage') as HTMLImageElement|null;
 const ruiContainer = document.getElementById('ruiContainer') as HTMLDivElement|null;
 const message = document.getElementById('message') as HTMLDivElement|null;
 const messageContainer = document.getElementById('messageContainer') as HTMLDivElement|null;
@@ -9,8 +10,8 @@ let duelLevelMeter:any = document.getElementById('duelLevelMeter');;
 
 const webProducingStarter:number = 3000;
 let webProducingTime:number = 3000;
-let tanjiroX:number = 1350;
-let tanjiroY:number = 100;
+let tanjiroX:number = 95;
+let tanjiroY:number = 20;
 // document.addEventListener('keydown', (event) => {
 //     if (event.key === 'ArrowRight' && tanjiroX<1350) {
 //         tanjiroX += 10;
@@ -27,45 +28,55 @@ let tanjiroY:number = 100;
 //     }
 // });
 
+enum Direction{
+    ArrowUp,
+    ArrowDown,
+    ArrowLeft,
+    ArrowRight
+}
 
+tanjiroContainer!.style.left = `${tanjiroX}%`;
+tanjiroContainer!.style.top = `${tanjiroY}%`;
+tanjiroImage!.style.width = '3em';
+tanjiroImage!.style.height = '4em';
 
 document.addEventListener("keydown", (event: KeyboardEvent) => {
-  switch (event.key) {
+  switch (event.key){
     case "ArrowRight":
-      if (tanjiroX < 1350) {
-        tanjiroX += 10;
-        tanjiroContainer.style.left = `${tanjiroX}px`;
+      if (tanjiroX < 100) {
+        tanjiroX += 1;
+        tanjiroContainer.style.left = `${tanjiroX}%`;
       }
       break;
 
     case "ArrowLeft":
       if (tanjiroX > 0) {
-        tanjiroX -= 10;
-        tanjiroContainer.style.left = `${tanjiroX}px`;
+        tanjiroX -= 1;
+        tanjiroContainer.style.left = `${tanjiroX}%`;
       }
       break;
 
     case "ArrowUp":
       if (tanjiroY > 0) {
-        tanjiroY -= 10;
-        tanjiroContainer.style.top = `${tanjiroY}px`;
+        tanjiroY -= 1;
+        tanjiroContainer.style.top = `${tanjiroY}%`;
       }
       break;
 
     case "ArrowDown":
-      if (tanjiroY < 300) {
-        tanjiroY += 10;
-        tanjiroContainer.style.top = `${tanjiroY}px`;
+      if (tanjiroY < 90) {
+        tanjiroY += 1;
+        tanjiroContainer.style.top = `${tanjiroY}%`;
       }
       break;
   }
 
-    if(tanjiroX<=150){
+    if(tanjiroX<=10){
         // alert('Congratulations! Tanjiro has reached Rui and saved Nezuko!');
-        tanjiroX = 1350;
-        tanjiroY = 100;
-        tanjiroContainer.style.left = `${tanjiroX}px`;
-        tanjiroContainer.style.top = `${tanjiroY}px`;
+        tanjiroX = 95;
+        tanjiroY = 20;
+        tanjiroContainer.style.left = `${tanjiroX}%`;
+        tanjiroContainer.style.top = `${tanjiroY}%`;
         messageContainer?.classList.remove('hidden');
         // let pMessage = document.createElement('p');
         // pMessage.textContent = 'You Win! Tanjiro has saved Nezuko from Rui!';
@@ -91,29 +102,29 @@ function createBloodThread():void{
     thread.style.backgroundSize = 'cover';
     thread.style.width = '50px';
     thread.style.height = '50px';
-    thread.style.left = `-100px`;
-    thread.style.top = `${ Math.floor(Math.random() * 330)}px`;
+    thread.style.left = `-10%`;
+    thread.style.top = `${ Math.floor(Math.random() * 90)}%`;
     game.appendChild(thread);
 
     const webMoveInterval = setInterval(() => {
-        bloodThreadX +=5;
-        thread.style.left = `${bloodThreadX}px`;
-        if (bloodThreadX > 1200) {
+        bloodThreadX +=1;
+        thread.style.left = `${bloodThreadX}%`;
+        if (bloodThreadX > 90) {
           thread.remove();
           clearInterval(webMoveInterval);
         }
 
         // Collision detection
-        if(bloodThreadX >= tanjiroX && bloodThreadX <= tanjiroX + 60 && parseInt(thread.style.top.replace('px',''))>= tanjiroY && parseInt(thread.style.top.replace('px','')) <= tanjiroY + 60){
+        if(bloodThreadX >= tanjiroX && bloodThreadX <= tanjiroX + 3 && parseInt(thread.style.top.replace('%',''))>= tanjiroY-13 && parseInt(thread.style.top.replace('%','')) <= tanjiroY + 18){
             alert('Tanjiro has been caught by Rui\'s Blood Thread! Game Over!');
-            bloodThreadX = 1400; // Move the thread out of bounds to stop further checks
+            bloodThreadX = 100; // Move the thread out of bounds to stop further checks
             thread.remove();
-            tanjiroX = 1350;
-            tanjiroY = 100;
-            tanjiroContainer.style.left = `${tanjiroX}px`;
-            tanjiroContainer.style.top = `${tanjiroY}px`;
+            tanjiroX = 95;
+            tanjiroY = 20;
+            tanjiroContainer.style.left = `${tanjiroX}%`;
+            tanjiroContainer.style.top = `${tanjiroY}%`;
         };
-    }, 10);
+    }, 100);
 
 
 }
