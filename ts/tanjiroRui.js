@@ -14,62 +14,70 @@ var webProducingStarter = 3000;
 var webProducingTime = 3000;
 var tanjiroX = 95;
 var tanjiroY = 20;
-// document.addEventListener('keydown', (event) => {
-//     if (event.key === 'ArrowRight' && tanjiroX<1350) {
-//         tanjiroX += 10;
-//         tanjiroContainer.style.left = `${tanjiroX}px`;
-//     }else if (event.key === 'ArrowLeft' && tanjiroX>0) {
-//         tanjiroX -= 10;
-//         tanjiroContainer.style.left = `${tanjiroX}px`;
-//     }else if (event.key === 'ArrowUp' && tanjiroY>0) {
-//         tanjiroY -= 10;
-//         tanjiroContainer.style.top = `${tanjiroY}px`;
-//     }else if (event.key === 'ArrowDown' && tanjiroY<300) {
-//         tanjiroY += 10;
-//         tanjiroContainer.style.top = `${tanjiroY}px`;
-//     }
-// });
 var Direction;
 (function (Direction) {
-    Direction[Direction["ArrowUp"] = 0] = "ArrowUp";
-    Direction[Direction["ArrowDown"] = 1] = "ArrowDown";
-    Direction[Direction["ArrowLeft"] = 2] = "ArrowLeft";
-    Direction[Direction["ArrowRight"] = 3] = "ArrowRight";
+    Direction["ArrowUp"] = "ArrowUp";
+    Direction["ArrowDown"] = "ArrowDown";
+    Direction["ArrowLeft"] = "ArrowLeft";
+    Direction["ArrowRight"] = "ArrowRight";
+    Direction["Space"] = " ";
 })(Direction || (Direction = {}));
+var keyLocked = false;
 tanjiroContainer.style.left = "".concat(tanjiroX, "%");
 tanjiroContainer.style.top = "".concat(tanjiroY, "%");
 tanjiroImage.style.width = '3em';
 tanjiroImage.style.height = '4em';
 document.addEventListener("keydown", function (event) {
+    if (keyLocked)
+        return;
     switch (event.key) {
-        case "ArrowRight":
+        case Direction.ArrowRight:
             if (tanjiroX < 100) {
                 tanjiroX += 1;
                 tanjiroContainer.style.left = "".concat(tanjiroX, "%");
             }
             break;
-        case "ArrowLeft":
+        case Direction.ArrowLeft:
             if (tanjiroX > 0) {
                 tanjiroX -= 1;
                 tanjiroContainer.style.left = "".concat(tanjiroX, "%");
             }
             break;
-        case "ArrowUp":
+        case Direction.ArrowUp:
             if (tanjiroY > 0) {
-                tanjiroY -= 1;
+                tanjiroY -= 3;
                 tanjiroContainer.style.top = "".concat(tanjiroY, "%");
             }
             break;
-        case "ArrowDown":
+        case Direction.ArrowDown:
             if (tanjiroY < 85) {
-                tanjiroY += 1;
+                tanjiroY += 3;
                 tanjiroContainer.style.top = "".concat(tanjiroY, "%");
             }
+            break;
+        case Direction.Space:
+            keyLocked = true;
+            // let newTanjiroX:number =tanjiroX;
+            var newTanjiroY_1 = tanjiroY;
+            tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.remove('bg-yellow-500');
+            tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.add('bg-red-500');
+            console.log(tanjiroY);
+            console.log(newTanjiroY_1);
+            tanjiroY = -30;
+            setTimeout(function () {
+                // tanjiroX=newTanjiroX;
+                tanjiroY = newTanjiroY_1;
+                tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.remove('bg-red-500');
+                tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.add('bg-yellow-500');
+                keyLocked = false;
+                // tanjiroContainer.style.left = `${tanjiroX}%`;
+                // tanjiroContainer.style.top = `${tanjiroY}%`;
+            }, 700);
+            // alert('Tanjiro use Hinokami Kagura Dance to dodge Rui\'s Blood Thread!');
             break;
     }
     if (tanjiroX <= 10) {
-        // alert('Congratulations! Tanjiro has reached Rui and saved Nezuko!');
-        tanjiroX = 95;
+        tanjiroX = 97;
         tanjiroY = 20;
         tanjiroContainer.style.left = "".concat(tanjiroX, "%");
         tanjiroContainer.style.top = "".concat(tanjiroY, "%");
@@ -111,19 +119,18 @@ function createBloodThread() {
         }
         // Collision detection
         if (bloodThreadX >= tanjiroX && bloodThreadX <= tanjiroX + 3 && parseInt(thread.style.top.replace('%', '')) >= tanjiroY - 13 && parseInt(thread.style.top.replace('%', '')) <= tanjiroY + 18) {
-            // alert('Tanjiro has been caught by Rui\'s Blood Thread! Game Over!');
             messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.classList.remove('hidden');
             duelResultTitle.textContent = 'Game Over!';
             duelResultDescription.textContent = ' Tanjiro has been caught by Rui\'s Blood Thread !';
             bloodThreadX = 100; // Move the thread out of bounds to stop further checks
             thread.remove();
-            tanjiroX = 95;
+            tanjiroX = 97;
             tanjiroY = 20;
             tanjiroContainer.style.left = "".concat(tanjiroX, "%");
             tanjiroContainer.style.top = "".concat(tanjiroY, "%");
         }
         ;
-    }, 100);
+    }, 50);
 }
 var bloodInterval = setInterval(createBloodThread, webProducingTime);
 var duelLevel = 1;
@@ -135,7 +142,6 @@ function tryAgain() {
 }
 tryAgainButton === null || tryAgainButton === void 0 ? void 0 : tryAgainButton.addEventListener('click', tryAgain);
 function nextLevel() {
-    console.log(duelLevel);
     duelLevel++;
     messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.classList.add('hidden');
     nextLevelButton.classList.add('hidden');

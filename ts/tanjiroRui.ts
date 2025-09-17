@@ -16,28 +16,16 @@ const webProducingStarter:number = 3000;
 let webProducingTime:number = 3000;
 let tanjiroX:number = 95;
 let tanjiroY:number = 20;
-// document.addEventListener('keydown', (event) => {
-//     if (event.key === 'ArrowRight' && tanjiroX<1350) {
-//         tanjiroX += 10;
-//         tanjiroContainer.style.left = `${tanjiroX}px`;
-//     }else if (event.key === 'ArrowLeft' && tanjiroX>0) {
-//         tanjiroX -= 10;
-//         tanjiroContainer.style.left = `${tanjiroX}px`;
-//     }else if (event.key === 'ArrowUp' && tanjiroY>0) {
-//         tanjiroY -= 10;
-//         tanjiroContainer.style.top = `${tanjiroY}px`;
-//     }else if (event.key === 'ArrowDown' && tanjiroY<300) {
-//         tanjiroY += 10;
-//         tanjiroContainer.style.top = `${tanjiroY}px`;
-//     }
-// });
 
 enum Direction{
-    ArrowUp,
-    ArrowDown,
-    ArrowLeft,
-    ArrowRight
+    ArrowUp = "ArrowUp",
+    ArrowDown = "ArrowDown",
+    ArrowLeft = "ArrowLeft",
+    ArrowRight = "ArrowRight",
+    Space = " "
 }
+
+let keyLocked = false;
 
 tanjiroContainer!.style.left = `${tanjiroX}%`;
 tanjiroContainer!.style.top = `${tanjiroY}%`;
@@ -45,39 +33,59 @@ tanjiroImage!.style.width = '3em';
 tanjiroImage!.style.height = '4em';
 
 document.addEventListener("keydown", (event: KeyboardEvent) => {
+    if (keyLocked) return;
   switch (event.key){
-    case "ArrowRight":
+    case Direction.ArrowRight:
       if (tanjiroX < 100) {
         tanjiroX += 1;
         tanjiroContainer.style.left = `${tanjiroX}%`;
       }
       break;
 
-    case "ArrowLeft":
+    case Direction.ArrowLeft:
       if (tanjiroX > 0) {
         tanjiroX -= 1;
         tanjiroContainer.style.left = `${tanjiroX}%`;
       }
       break;
 
-    case "ArrowUp":
+    case Direction.ArrowUp:
       if (tanjiroY > 0) {
-        tanjiroY -= 1;
+        tanjiroY -= 3;
         tanjiroContainer.style.top = `${tanjiroY}%`;
       }
       break;
 
-    case "ArrowDown":
+    case Direction.ArrowDown:
       if (tanjiroY < 85) {
-        tanjiroY += 1;
+        tanjiroY += 3;
         tanjiroContainer.style.top = `${tanjiroY}%`;
       }
+      break;
+    case Direction.Space:
+      keyLocked=true;
+      // let newTanjiroX:number =tanjiroX;
+      let newTanjiroY:number =tanjiroY;
+      tanjiroContainer?.classList.remove('bg-yellow-500');
+      tanjiroContainer?.classList.add('bg-red-500');
+      console.log(tanjiroY);
+      console.log(newTanjiroY);
+      tanjiroY=-30;
+      setTimeout(() => {
+          // tanjiroX=newTanjiroX;
+          tanjiroY=newTanjiroY;
+          tanjiroContainer?.classList.remove('bg-red-500');
+          tanjiroContainer?.classList.add('bg-yellow-500');
+          keyLocked=false;
+          // tanjiroContainer.style.left = `${tanjiroX}%`;
+          // tanjiroContainer.style.top = `${tanjiroY}%`;
+      }, 700);
+      // alert('Tanjiro use Hinokami Kagura Dance to dodge Rui\'s Blood Thread!');
       break;
   }
 
     if(tanjiroX<=10){
-        // alert('Congratulations! Tanjiro has reached Rui and saved Nezuko!');
-        tanjiroX = 95;
+        tanjiroX = 97;
         tanjiroY = 20;
         tanjiroContainer.style.left = `${tanjiroX}%`;
         tanjiroContainer.style.top = `${tanjiroY}%`;
@@ -85,6 +93,8 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
         nextLevelButton!.classList.remove('hidden');
         duelResultTitle!.textContent = 'You Win!';
         duelResultDescription!.textContent = ' Tanjiro has saved Nezuko from Rui!';
+
+
         // message!.innerHTML = ''; // Clear previous messages
         // let pMessage = document.createElement('p');
         // pMessage.textContent = 'You Win! Tanjiro has saved Nezuko from Rui!';
@@ -126,18 +136,18 @@ function createBloodThread():void{
 
         // Collision detection
         if(bloodThreadX >= tanjiroX && bloodThreadX <= tanjiroX + 3 && parseInt(thread.style.top.replace('%',''))>= tanjiroY-13 && parseInt(thread.style.top.replace('%','')) <= tanjiroY + 18){
-            // alert('Tanjiro has been caught by Rui\'s Blood Thread! Game Over!');
+
             messageContainer?.classList.remove('hidden');
             duelResultTitle!.textContent = 'Game Over!';
             duelResultDescription!.textContent = ' Tanjiro has been caught by Rui\'s Blood Thread !';
             bloodThreadX = 100; // Move the thread out of bounds to stop further checks
             thread.remove();
-            tanjiroX = 95;
+            tanjiroX = 97;
             tanjiroY = 20;
             tanjiroContainer.style.left = `${tanjiroX}%`;
             tanjiroContainer.style.top = `${tanjiroY}%`;
         };
-    }, 100);
+    }, 50);
 
 
 }
@@ -159,7 +169,6 @@ function tryAgain():void{
 tryAgainButton?.addEventListener('click', tryAgain);
 
 function nextLevel():void{
-  console.log(duelLevel);
   duelLevel++;
   messageContainer?.classList.add('hidden');
   nextLevelButton!.classList.add('hidden');
