@@ -8,13 +8,18 @@ const overlay = document.getElementById('overlay') as HTMLDivElement|null;
 const nextLevelButton = document.getElementById('nextLevelButton') as HTMLButtonElement|null;
 const tryAgainButton = document.getElementById('tryAgainButton') as HTMLButtonElement|null;
 const webCounterDisplay = document.getElementById('webCounterDisplay') as HTMLParagraphElement|null;
+const webSlashedCounterDisplay = document.getElementById('webSlashedCounterDisplay') as HTMLParagraphElement|null;
 const swordSlashEffect = document.getElementById('swordSlashEffect') as HTMLImageElement|null;
 const swordSlashEffect2 = document.getElementById('swordSlashEffect2') as HTMLImageElement|null;
 const swordslashsound = document.getElementById('swordslashsound') as HTMLAudioElement|null;
+const tanjirobeheadruiContainer = document.getElementById('tanjirobeheadruiContainer') as HTMLDivElement|null;
+const tanjirobeheadrui = document.getElementById('tanjirobeheadrui') as HTMLVideoElement|null;
+const tanjirobeheadruisound = document.getElementById('tanjirobeheadruisound') as HTMLAudioElement|null;
 let duelResultTitle = document.getElementById('duelResultTitle') as HTMLHeadingElement|null;
 let duelResultDescription = document.getElementById('duelResultDescription') as HTMLParagraphElement|null;
 let duelLevelMeter:any = document.getElementById('duelLevelMeter');
 let webCounter:number = 0;
+let webSlashedCounter:number = 0;
 
 const webProducingStarter:number = 3000;
 let webProducingTime:number = 3000;
@@ -40,7 +45,7 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
     if (keyLocked) return;
   switch (event.key){
     case Direction.ArrowRight:
-      if (tanjiroX < 100) {
+      if (tanjiroX < 95) {
         tanjiroX += 1;
         tanjiroContainer.style.left = `${tanjiroX}%`;
       }
@@ -97,15 +102,21 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
   }
 
     if(tanjiroX<=10){
+      tanjirobeheadruiContainer?.classList.remove('hidden');
+      tanjirobeheadruisound?.play();
+      setTimeout(() => {
+          tanjirobeheadruiContainer?.classList.add('hidden');
+      },3000)
         tanjiroX = 97;
-        tanjiroY = 20;
+        tanjiroY = 20;;
         tanjiroContainer.style.left = `${tanjiroX}%`;
         tanjiroContainer.style.top = `${tanjiroY}%`;
         messageContainer?.classList.remove('hidden');
         nextLevelButton!.classList.remove('hidden');
         duelResultTitle!.textContent = 'You Win!';
-        duelResultDescription!.textContent = ' Tanjiro has saved Nezuko from Rui!';
+        duelResultDescription!.textContent = ` Tanjiro has saved Nezuko from Rui Level ${duelLevel} !`;
         webCounterDisplay!.textContent = `Total Blood Threads Dodged: ${webCounter}`;
+        webSlashedCounterDisplay!.textContent = `Total Blood Threads Slashed: ${webSlashedCounter}`;
 
 
         // message!.innerHTML = ''; // Clear previous messages
@@ -127,7 +138,7 @@ messageContainer?.addEventListener('click', (e) => {
 
 
 function createBloodThread():void{
-    webCounter++;
+
     let bloodThreadX:number=0;
     const thread = document.createElement('div');
     thread.className = 'absolute border-2 border-black rounded-full text-center text-lg z-3';
@@ -143,7 +154,8 @@ function createBloodThread():void{
     const webMoveInterval = setInterval(() => {
         bloodThreadX +=1;
         thread.style.left = `${bloodThreadX}%`;
-        if (bloodThreadX > 90) {
+        if (bloodThreadX > 88) {
+          webCounter++;
           thread.remove();
           clearInterval(webMoveInterval);
         }
@@ -174,6 +186,7 @@ function createBloodThread():void{
         if(bloodThreadX >= tanjiroX && bloodThreadX <= tanjiroX + 3 && parseInt(thread.style.top.replace('%',''))>= tanjiroY-13 && parseInt(thread.style.top.replace('%','')) <= tanjiroY + 18){
           console.log(keyLocked);
             if(keyLocked){
+              webSlashedCounter++;
               thread.style.backgroundImage = 'url(./asset/image/webslashed.png)';
               thread.classList.add('cutdownleft');
               thread.style.width = '80px';
@@ -190,8 +203,9 @@ function createBloodThread():void{
             duelResultDescription!.textContent = ' Tanjiro has been caught by Rui\'s Blood Thread !';
             bloodThreadX = 100; // Move the thread out of bounds to stop further checks
             webCounterDisplay!.textContent = `Total Blood Threads Dodged: ${webCounter-1}`;
+            webSlashedCounterDisplay!.textContent = `Total Blood Threads Slashed: ${webSlashedCounter}`;
             thread.remove();
-            tanjiroX = 97;
+            tanjiroX = 95;
             tanjiroY = 20;
             tanjiroContainer.style.left = `${tanjiroX}%`;
             tanjiroContainer.style.top = `${tanjiroY}%`;

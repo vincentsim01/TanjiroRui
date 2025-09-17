@@ -8,13 +8,18 @@ var overlay = document.getElementById('overlay');
 var nextLevelButton = document.getElementById('nextLevelButton');
 var tryAgainButton = document.getElementById('tryAgainButton');
 var webCounterDisplay = document.getElementById('webCounterDisplay');
+var webSlashedCounterDisplay = document.getElementById('webSlashedCounterDisplay');
 var swordSlashEffect = document.getElementById('swordSlashEffect');
 var swordSlashEffect2 = document.getElementById('swordSlashEffect2');
 var swordslashsound = document.getElementById('swordslashsound');
+var tanjirobeheadruiContainer = document.getElementById('tanjirobeheadruiContainer');
+var tanjirobeheadrui = document.getElementById('tanjirobeheadrui');
+var tanjirobeheadruisound = document.getElementById('tanjirobeheadruisound');
 var duelResultTitle = document.getElementById('duelResultTitle');
 var duelResultDescription = document.getElementById('duelResultDescription');
 var duelLevelMeter = document.getElementById('duelLevelMeter');
 var webCounter = 0;
+var webSlashedCounter = 0;
 var webProducingStarter = 3000;
 var webProducingTime = 3000;
 var tanjiroX = 95;
@@ -37,7 +42,7 @@ document.addEventListener("keydown", function (event) {
         return;
     switch (event.key) {
         case Direction.ArrowRight:
-            if (tanjiroX < 100) {
+            if (tanjiroX < 95) {
                 tanjiroX += 1;
                 tanjiroContainer.style.left = "".concat(tanjiroX, "%");
             }
@@ -89,15 +94,22 @@ document.addEventListener("keydown", function (event) {
             break;
     }
     if (tanjiroX <= 10) {
+        tanjirobeheadruiContainer === null || tanjirobeheadruiContainer === void 0 ? void 0 : tanjirobeheadruiContainer.classList.remove('hidden');
+        tanjirobeheadruisound === null || tanjirobeheadruisound === void 0 ? void 0 : tanjirobeheadruisound.play();
+        setTimeout(function () {
+            tanjirobeheadruiContainer === null || tanjirobeheadruiContainer === void 0 ? void 0 : tanjirobeheadruiContainer.classList.add('hidden');
+        }, 3000);
         tanjiroX = 97;
         tanjiroY = 20;
+        ;
         tanjiroContainer.style.left = "".concat(tanjiroX, "%");
         tanjiroContainer.style.top = "".concat(tanjiroY, "%");
         messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.classList.remove('hidden');
         nextLevelButton.classList.remove('hidden');
         duelResultTitle.textContent = 'You Win!';
-        duelResultDescription.textContent = ' Tanjiro has saved Nezuko from Rui!';
+        duelResultDescription.textContent = " Tanjiro has saved Nezuko from Rui Level ".concat(duelLevel, " !");
         webCounterDisplay.textContent = "Total Blood Threads Dodged: ".concat(webCounter);
+        webSlashedCounterDisplay.textContent = "Total Blood Threads Slashed: ".concat(webSlashedCounter);
         // message!.innerHTML = ''; // Clear previous messages
         // let pMessage = document.createElement('p');
         // pMessage.textContent = 'You Win! Tanjiro has saved Nezuko from Rui!';
@@ -112,7 +124,6 @@ messageContainer === null || messageContainer === void 0 ? void 0 : messageConta
     }
 });
 function createBloodThread() {
-    webCounter++;
     var bloodThreadX = 0;
     var thread = document.createElement('div');
     thread.className = 'absolute border-2 border-black rounded-full text-center text-lg z-3';
@@ -127,7 +138,8 @@ function createBloodThread() {
     var webMoveInterval = setInterval(function () {
         bloodThreadX += 1;
         thread.style.left = "".concat(bloodThreadX, "%");
-        if (bloodThreadX > 90) {
+        if (bloodThreadX > 88) {
+            webCounter++;
             thread.remove();
             clearInterval(webMoveInterval);
         }
@@ -153,10 +165,11 @@ function createBloodThread() {
         if (bloodThreadX >= tanjiroX && bloodThreadX <= tanjiroX + 3 && parseInt(thread.style.top.replace('%', '')) >= tanjiroY - 13 && parseInt(thread.style.top.replace('%', '')) <= tanjiroY + 18) {
             console.log(keyLocked);
             if (keyLocked) {
+                webSlashedCounter++;
                 thread.style.backgroundImage = 'url(./asset/image/webslashed.png)';
                 thread.classList.add('cutdownleft');
-                thread.style.width = '90px';
-                thread.style.height = '90px';
+                thread.style.width = '80px';
+                thread.style.height = '80px';
                 clearInterval(webMoveInterval);
                 setTimeout(function () {
                     thread.remove();
@@ -168,8 +181,9 @@ function createBloodThread() {
             duelResultDescription.textContent = ' Tanjiro has been caught by Rui\'s Blood Thread !';
             bloodThreadX = 100; // Move the thread out of bounds to stop further checks
             webCounterDisplay.textContent = "Total Blood Threads Dodged: ".concat(webCounter - 1);
+            webSlashedCounterDisplay.textContent = "Total Blood Threads Slashed: ".concat(webSlashedCounter);
             thread.remove();
-            tanjiroX = 97;
+            tanjiroX = 95;
             tanjiroY = 20;
             tanjiroContainer.style.left = "".concat(tanjiroX, "%");
             tanjiroContainer.style.top = "".concat(tanjiroY, "%");

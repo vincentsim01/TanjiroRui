@@ -56,12 +56,20 @@
             </div>
             <div id="game" class="relative w-[95%] h-[55vh] bg-gray-900 border-2 border-black p-1 mx-auto mt-5">
                 <audio src="./asset/sound/swordslashsound.wav" id="swordslashsound"></audio>
+                <audio src="./asset/sound/tanjirobeheadrui.mp3" id="tanjirobeheadruisound"></audio>
+
                 <div id="messageContainer" class="hidden relative w-[100%] h-[100%] flex justify-center items-center">
                     <div id="overlay" class="absolute inset-0 bg-black bg-opacity-50 z-3"></div>
+                        <div id="tanjirobeheadruiContainer" class="hidden absolute -skew-x-5 inset-1 flex justify-center items-center z-5"> 
+                            <video src="./asset/video/tanjirobeheadrui.mp4" id="tanjirobeheadrui" autoplay muted loop></video>
+                        </div>
+                       
                     <div id="message" class="relative border bg-white p-2 z-4 w-[50%] p-3 flex flex-col justify-center items-center text-center">
+
                         <h1 id="duelResultTitle"></h1>
                         <p id="duelResultDescription"> </p>
                         <p id="webCounterDisplay" class="mt-2"></p>
+                        <p id="webSlashedCounterDisplay" class="mt-2"></p>
                         <div id="buttonContainer" class="flex justify-between items-center">
                             <button id="nextLevelButton" class="hidden  border hover:bg-black hover:text-white text-black font-bold py-2 px-4 active:scale-90 cursor-pointer rounded">Next Level</button>
                             <button id="tryAgainButton" class="ml-3 border hover:bg-black hover:text-white text-black font-bold py-2 px-4 active:scale-90 cursor-pointer rounded">Try Again</button>
