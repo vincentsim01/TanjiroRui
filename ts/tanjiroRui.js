@@ -6,8 +6,10 @@ var message = document.getElementById('message');
 var messageContainer = document.getElementById('messageContainer');
 var overlay = document.getElementById('overlay');
 var nextLevelButton = document.getElementById('nextLevelButton');
+var tryAgainButton = document.getElementById('tryAgainButton');
+var duelResultTitle = document.getElementById('duelResultTitle');
+var duelResultDescription = document.getElementById('duelResultDescription');
 var duelLevelMeter = document.getElementById('duelLevelMeter');
-;
 var webProducingStarter = 3000;
 var webProducingTime = 3000;
 var tanjiroX = 95;
@@ -59,7 +61,7 @@ document.addEventListener("keydown", function (event) {
             }
             break;
         case "ArrowDown":
-            if (tanjiroY < 90) {
+            if (tanjiroY < 85) {
                 tanjiroY += 1;
                 tanjiroContainer.style.top = "".concat(tanjiroY, "%");
             }
@@ -72,6 +74,10 @@ document.addEventListener("keydown", function (event) {
         tanjiroContainer.style.left = "".concat(tanjiroX, "%");
         tanjiroContainer.style.top = "".concat(tanjiroY, "%");
         messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.classList.remove('hidden');
+        nextLevelButton.classList.remove('hidden');
+        duelResultTitle.textContent = 'You Win!';
+        duelResultDescription.textContent = ' Tanjiro has saved Nezuko from Rui!';
+        // message!.innerHTML = ''; // Clear previous messages
         // let pMessage = document.createElement('p');
         // pMessage.textContent = 'You Win! Tanjiro has saved Nezuko from Rui!';
         // message?.appendChild(pMessage);
@@ -80,6 +86,8 @@ document.addEventListener("keydown", function (event) {
 messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.addEventListener('click', function (e) {
     if (e.target !== message) {
         messageContainer.classList.add('hidden');
+        duelResultTitle.textContent = '';
+        duelResultDescription.textContent = '';
     }
 });
 function createBloodThread() {
@@ -103,7 +111,10 @@ function createBloodThread() {
         }
         // Collision detection
         if (bloodThreadX >= tanjiroX && bloodThreadX <= tanjiroX + 3 && parseInt(thread.style.top.replace('%', '')) >= tanjiroY - 13 && parseInt(thread.style.top.replace('%', '')) <= tanjiroY + 18) {
-            alert('Tanjiro has been caught by Rui\'s Blood Thread! Game Over!');
+            // alert('Tanjiro has been caught by Rui\'s Blood Thread! Game Over!');
+            messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.classList.remove('hidden');
+            duelResultTitle.textContent = 'Game Over!';
+            duelResultDescription.textContent = ' Tanjiro has been caught by Rui\'s Blood Thread !';
             bloodThreadX = 100; // Move the thread out of bounds to stop further checks
             thread.remove();
             tanjiroX = 95;
@@ -117,18 +128,26 @@ function createBloodThread() {
 var bloodInterval = setInterval(createBloodThread, webProducingTime);
 var duelLevel = 1;
 duelLevelMeter.textContent = duelLevel.toString();
+function tryAgain() {
+    messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.classList.add('hidden');
+    duelResultTitle.textContent = '';
+    duelResultDescription.textContent = '';
+}
+tryAgainButton === null || tryAgainButton === void 0 ? void 0 : tryAgainButton.addEventListener('click', tryAgain);
 function nextLevel() {
-    duelLevel += 1;
+    console.log(duelLevel);
+    duelLevel++;
+    messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.classList.add('hidden');
+    nextLevelButton.classList.add('hidden');
+    duelResultTitle.textContent = '';
+    duelResultDescription.textContent = '';
     duelLevelMeter.textContent = duelLevel.toString();
     if (duelLevel > 5) {
         webProducingTime = webProducingStarter / duelLevel;
-        console.log(webProducingTime);
     }
     else if (duelLevel <= 5) {
         webProducingTime = webProducingStarter - duelLevel * 500;
-        console.log(webProducingTime);
     }
-    console.log(webProducingTime);
     messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.classList.remove('hidden');
     clearInterval(bloodInterval);
     bloodInterval = setInterval(createBloodThread, webProducingTime);

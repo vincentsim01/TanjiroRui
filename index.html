@@ -54,13 +54,18 @@
 
 
             </div>
-            <div id="game" class="relative w-[95%] h-[55vh] bg-gray-900 border-2 border-black p-8 mx-auto mt-5">
+            <div id="game" class="relative w-[95%] h-[55vh] bg-gray-900 border-2 border-black p-1 mx-auto mt-5">
                 <div id="messageContainer" class="hidden relative w-[100%] h-[100%] flex justify-center items-center">
                     <div id="overlay" class="absolute inset-0 bg-black bg-opacity-50 z-3"></div>
                     <div id="message" class="relative border bg-white p-2 z-4 w-[50%] p-3 flex flex-col justify-center items-center text-center">
-                        <h1>You Win!</h1>
-                        <p> Tanjiro has saved Nezuko from Rui!</p>
-                        <button id="nextLevelButton" class="border border-black rounded-lg cursor-pointer hover:scale-110 active:scale-90">Next Level</button>
+                        <h1 id="duelResultTitle"></h1>
+                        <p id="duelResultDescription"> </p>
+                        <div id="buttonContainer" class="flex justify-between items-center">
+                            <button id="nextLevelButton" class="hidden  border hover:bg-black hover:text-white text-black font-bold py-2 px-4 active:scale-90 cursor-pointer rounded">Next Level</button>
+                            <button id="tryAgainButton" class="ml-3 border hover:bg-black hover:text-white text-black font-bold py-2 px-4 active:scale-90 cursor-pointer rounded">Try Again</button>
+
+                        </div>
+    
                     </div>
                 </div>
                 <div id="tanjiroContainer" class="absolute transform bg-yellow-500 rounded-full text-center text-lg z-2"><img src="./asset/image/tanjiro.png" alt="Tanjiro" id="tanjiroImage" class=""></img></div>

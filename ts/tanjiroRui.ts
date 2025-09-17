@@ -6,7 +6,11 @@ const message = document.getElementById('message') as HTMLDivElement|null;
 const messageContainer = document.getElementById('messageContainer') as HTMLDivElement|null;
 const overlay = document.getElementById('overlay') as HTMLDivElement|null;
 const nextLevelButton = document.getElementById('nextLevelButton') as HTMLButtonElement|null;
-let duelLevelMeter:any = document.getElementById('duelLevelMeter');;
+const tryAgainButton = document.getElementById('tryAgainButton') as HTMLButtonElement|null;
+let duelResultTitle = document.getElementById('duelResultTitle') as HTMLHeadingElement|null;
+let duelResultDescription = document.getElementById('duelResultDescription') as HTMLParagraphElement|null;
+let duelLevelMeter:any = document.getElementById('duelLevelMeter');
+
 
 const webProducingStarter:number = 3000;
 let webProducingTime:number = 3000;
@@ -64,7 +68,7 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
       break;
 
     case "ArrowDown":
-      if (tanjiroY < 90) {
+      if (tanjiroY < 85) {
         tanjiroY += 1;
         tanjiroContainer.style.top = `${tanjiroY}%`;
       }
@@ -78,6 +82,10 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
         tanjiroContainer.style.left = `${tanjiroX}%`;
         tanjiroContainer.style.top = `${tanjiroY}%`;
         messageContainer?.classList.remove('hidden');
+        nextLevelButton!.classList.remove('hidden');
+        duelResultTitle!.textContent = 'You Win!';
+        duelResultDescription!.textContent = ' Tanjiro has saved Nezuko from Rui!';
+        // message!.innerHTML = ''; // Clear previous messages
         // let pMessage = document.createElement('p');
         // pMessage.textContent = 'You Win! Tanjiro has saved Nezuko from Rui!';
         // message?.appendChild(pMessage);
@@ -89,6 +97,8 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
 messageContainer?.addEventListener('click', (e) => {
     if (e.target !== message) {
         messageContainer.classList.add('hidden');
+        duelResultTitle!.textContent = '';
+        duelResultDescription!.textContent = '';
     }
 });
 
@@ -116,7 +126,10 @@ function createBloodThread():void{
 
         // Collision detection
         if(bloodThreadX >= tanjiroX && bloodThreadX <= tanjiroX + 3 && parseInt(thread.style.top.replace('%',''))>= tanjiroY-13 && parseInt(thread.style.top.replace('%','')) <= tanjiroY + 18){
-            alert('Tanjiro has been caught by Rui\'s Blood Thread! Game Over!');
+            // alert('Tanjiro has been caught by Rui\'s Blood Thread! Game Over!');
+            messageContainer?.classList.remove('hidden');
+            duelResultTitle!.textContent = 'Game Over!';
+            duelResultDescription!.textContent = ' Tanjiro has been caught by Rui\'s Blood Thread !';
             bloodThreadX = 100; // Move the thread out of bounds to stop further checks
             thread.remove();
             tanjiroX = 95;
@@ -137,19 +150,32 @@ let duelLevel:number = 1;
 
 duelLevelMeter.textContent = duelLevel.toString();
 
+function tryAgain():void{
+    messageContainer?.classList.add('hidden');
+    duelResultTitle!.textContent = '';
+    duelResultDescription!.textContent = '';
+}
+
+tryAgainButton?.addEventListener('click', tryAgain);
+
 function nextLevel():void{
-  duelLevel += 1;
+  console.log(duelLevel);
+  duelLevel++;
+  messageContainer?.classList.add('hidden');
+  nextLevelButton!.classList.add('hidden');
+  duelResultTitle!.textContent = '';
+  duelResultDescription!.textContent = '';
   duelLevelMeter.textContent = duelLevel.toString();
   if(duelLevel>5){
       webProducingTime = webProducingStarter/duelLevel;
-      console.log(webProducingTime)
+ 
   }else if(duelLevel<=5){
       webProducingTime = webProducingStarter - duelLevel * 500;
-        console.log(webProducingTime)
+   
 
   }
 
-  console.log(webProducingTime);
+
   messageContainer?.classList.remove('hidden');
   clearInterval(bloodInterval);
   bloodInterval = setInterval(createBloodThread, webProducingTime);
