@@ -7,6 +7,15 @@
     animation-delay: 0.1s;
 }
 
+.cutdownleft{
+    animation: cutdownAnimationleft 0.5s ease-in-out;
+
+}
+
+.cutdownright{
+    animation: cutdownAnimationright 0.5s ease-in-out;
+}
+
 @keyframes slashAnimation{
     0%{
         transform: rotate(0deg);
@@ -28,5 +37,29 @@
     }
     100%{
         transform: rotate(0deg) scale(1.1);
+    }
+}
+
+@keyframes cutdownAnimationleft{
+    0%{
+        transform: translateY(0);
+    }
+    50%{
+        transform: rotateZ('30deg') scale(1.5);
+    }
+    100%{
+        transform: rotateZ('45deg') scale(2);
+    }
+}
+
+@keyframes cutdownAnimationright{
+    0%{
+        transform: translateY(0);
+    }
+    50%{
+        transform: rotateZ('-15deg') scale(0.9);
+    }
+    100%{
+        transform: rotateZ('-30deg') scale(1);
     }
 }

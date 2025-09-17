@@ -10,6 +10,7 @@ const tryAgainButton = document.getElementById('tryAgainButton') as HTMLButtonEl
 const webCounterDisplay = document.getElementById('webCounterDisplay') as HTMLParagraphElement|null;
 const swordSlashEffect = document.getElementById('swordSlashEffect') as HTMLImageElement|null;
 const swordSlashEffect2 = document.getElementById('swordSlashEffect2') as HTMLImageElement|null;
+const swordslashsound = document.getElementById('swordslashsound') as HTMLAudioElement|null;
 let duelResultTitle = document.getElementById('duelResultTitle') as HTMLHeadingElement|null;
 let duelResultDescription = document.getElementById('duelResultDescription') as HTMLParagraphElement|null;
 let duelLevelMeter:any = document.getElementById('duelLevelMeter');
@@ -67,7 +68,7 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
       break;
     case Direction.Space:
       keyLocked=true;
-      // let newTanjiroX:number =tanjiroX;
+      let newTanjiroX:number =tanjiroX;
       let newTanjiroY:number =tanjiroY;
       tanjiroContainer?.classList.remove('bg-yellow-500');
       tanjiroContainer?.classList.add('bg-red-500');
@@ -75,12 +76,12 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
       swordSlashEffect?.classList.add('slash');
       swordSlashEffect2?.classList.remove('hidden');
       swordSlashEffect2?.classList.add('slash2');
-      console.log(tanjiroY);
-      console.log(newTanjiroY);
-      tanjiroY=-30;
+
+      swordslashsound?.play();
+      // tanjiroY=-30;
       setTimeout(() => {
           // tanjiroX=newTanjiroX;
-          tanjiroY=newTanjiroY;
+          // tanjiroY=newTanjiroY;
           tanjiroContainer?.classList.remove('bg-red-500');
           tanjiroContainer?.classList.add('bg-yellow-500');
           keyLocked=false;
@@ -147,9 +148,43 @@ function createBloodThread():void{
           clearInterval(webMoveInterval);
         }
 
+      //   document.addEventListener("keydown", (event: KeyboardEvent) => {
+      //       if (event.key === Direction.Space) {
+      //           keyLocked = true;
+      //           console.log(keyLocked);
+      //            if(bloodThreadX >= tanjiroX && bloodThreadX <= tanjiroX + 3 && parseInt(thread.style.top.replace('%',''))>= tanjiroY-13 && parseInt(thread.style.top.replace('%','')) <= tanjiroY + 18){
+      //                 thread.style.backgroundImage = 'url(./asset/image/webslashed.png)';
+      //                 thread.classList.add('cutdownleft');
+      //                 clearInterval(webMoveInterval);
+      //                 setTimeout(() => {
+      //                     thread.remove();
+      //                 }, 800)
+      //                 return;
+      //            }
+      //       }
+      //   });
+
+      //     setTimeout(() => {
+      //     keyLocked=false;
+      // }, 700);
+
+
+
         // Collision detection
         if(bloodThreadX >= tanjiroX && bloodThreadX <= tanjiroX + 3 && parseInt(thread.style.top.replace('%',''))>= tanjiroY-13 && parseInt(thread.style.top.replace('%','')) <= tanjiroY + 18){
+          console.log(keyLocked);
+            if(keyLocked){
+              thread.style.backgroundImage = 'url(./asset/image/webslashed.png)';
+              thread.classList.add('cutdownleft');
+              thread.style.width = '80px';
+              thread.style.height = '80px';
+              clearInterval(webMoveInterval);
+              setTimeout(() => {
+                  thread.remove();
 
+              }, 800)
+              return;
+            }
             messageContainer?.classList.remove('hidden');
             duelResultTitle!.textContent = 'Game Over!';
             duelResultDescription!.textContent = ' Tanjiro has been caught by Rui\'s Blood Thread !';
@@ -160,7 +195,13 @@ function createBloodThread():void{
             tanjiroY = 20;
             tanjiroContainer.style.left = `${tanjiroX}%`;
             tanjiroContainer.style.top = `${tanjiroY}%`;
-        };
+
+
+        }
+
+
+        
+        
     }, 50);
 
 

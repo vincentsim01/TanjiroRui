@@ -10,6 +10,7 @@ var tryAgainButton = document.getElementById('tryAgainButton');
 var webCounterDisplay = document.getElementById('webCounterDisplay');
 var swordSlashEffect = document.getElementById('swordSlashEffect');
 var swordSlashEffect2 = document.getElementById('swordSlashEffect2');
+var swordslashsound = document.getElementById('swordslashsound');
 var duelResultTitle = document.getElementById('duelResultTitle');
 var duelResultDescription = document.getElementById('duelResultDescription');
 var duelLevelMeter = document.getElementById('duelLevelMeter');
@@ -61,20 +62,19 @@ document.addEventListener("keydown", function (event) {
             break;
         case Direction.Space:
             keyLocked = true;
-            // let newTanjiroX:number =tanjiroX;
-            var newTanjiroY_1 = tanjiroY;
+            var newTanjiroX = tanjiroX;
+            var newTanjiroY = tanjiroY;
             tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.remove('bg-yellow-500');
             tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.add('bg-red-500');
             swordSlashEffect === null || swordSlashEffect === void 0 ? void 0 : swordSlashEffect.classList.remove('hidden');
             swordSlashEffect === null || swordSlashEffect === void 0 ? void 0 : swordSlashEffect.classList.add('slash');
             swordSlashEffect2 === null || swordSlashEffect2 === void 0 ? void 0 : swordSlashEffect2.classList.remove('hidden');
             swordSlashEffect2 === null || swordSlashEffect2 === void 0 ? void 0 : swordSlashEffect2.classList.add('slash2');
-            console.log(tanjiroY);
-            console.log(newTanjiroY_1);
-            tanjiroY = -30;
+            swordslashsound === null || swordslashsound === void 0 ? void 0 : swordslashsound.play();
+            // tanjiroY=-30;
             setTimeout(function () {
                 // tanjiroX=newTanjiroX;
-                tanjiroY = newTanjiroY_1;
+                // tanjiroY=newTanjiroY;
                 tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.remove('bg-red-500');
                 tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.add('bg-yellow-500');
                 keyLocked = false;
@@ -131,8 +131,38 @@ function createBloodThread() {
             thread.remove();
             clearInterval(webMoveInterval);
         }
+        //   document.addEventListener("keydown", (event: KeyboardEvent) => {
+        //       if (event.key === Direction.Space) {
+        //           keyLocked = true;
+        //           console.log(keyLocked);
+        //            if(bloodThreadX >= tanjiroX && bloodThreadX <= tanjiroX + 3 && parseInt(thread.style.top.replace('%',''))>= tanjiroY-13 && parseInt(thread.style.top.replace('%','')) <= tanjiroY + 18){
+        //                 thread.style.backgroundImage = 'url(./asset/image/webslashed.png)';
+        //                 thread.classList.add('cutdownleft');
+        //                 clearInterval(webMoveInterval);
+        //                 setTimeout(() => {
+        //                     thread.remove();
+        //                 }, 800)
+        //                 return;
+        //            }
+        //       }
+        //   });
+        //     setTimeout(() => {
+        //     keyLocked=false;
+        // }, 700);
         // Collision detection
         if (bloodThreadX >= tanjiroX && bloodThreadX <= tanjiroX + 3 && parseInt(thread.style.top.replace('%', '')) >= tanjiroY - 13 && parseInt(thread.style.top.replace('%', '')) <= tanjiroY + 18) {
+            console.log(keyLocked);
+            if (keyLocked) {
+                thread.style.backgroundImage = 'url(./asset/image/webslashed.png)';
+                thread.classList.add('cutdownleft');
+                thread.style.width = '90px';
+                thread.style.height = '90px';
+                clearInterval(webMoveInterval);
+                setTimeout(function () {
+                    thread.remove();
+                }, 800);
+                return;
+            }
             messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.classList.remove('hidden');
             duelResultTitle.textContent = 'Game Over!';
             duelResultDescription.textContent = ' Tanjiro has been caught by Rui\'s Blood Thread !';
@@ -144,7 +174,6 @@ function createBloodThread() {
             tanjiroContainer.style.left = "".concat(tanjiroX, "%");
             tanjiroContainer.style.top = "".concat(tanjiroY, "%");
         }
-        ;
     }, 50);
 }
 var bloodInterval = setInterval(createBloodThread, webProducingTime);
