@@ -60,14 +60,14 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
 
     case Direction.ArrowUp:
       if (tanjiroY > 0) {
-        tanjiroY -= 3;
+        tanjiroY -= 10;
         tanjiroContainer.style.top = `${tanjiroY}%`;
       }
       break;
 
     case Direction.ArrowDown:
       if (tanjiroY < 85) {
-        tanjiroY += 3;
+        tanjiroY += 10;
         tanjiroContainer.style.top = `${tanjiroY}%`;
       }
       break;

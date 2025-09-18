@@ -55,13 +55,13 @@ document.addEventListener("keydown", function (event) {
             break;
         case Direction.ArrowUp:
             if (tanjiroY > 0) {
-                tanjiroY -= 3;
+                tanjiroY -= 10;
                 tanjiroContainer.style.top = "".concat(tanjiroY, "%");
             }
             break;
         case Direction.ArrowDown:
             if (tanjiroY < 85) {
-                tanjiroY += 3;
+                tanjiroY += 10;
                 tanjiroContainer.style.top = "".concat(tanjiroY, "%");
             }
             break;
