@@ -76,24 +76,26 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
       let newTanjiroX:number =tanjiroX;
       let newTanjiroY:number =tanjiroY;
       tanjiroContainer?.classList.remove('bg-yellow-500');
-      tanjiroContainer?.classList.add('bg-red-500');
+      // tanjiroContainer?.classList.add('bg-red-500');
       swordSlashEffect?.classList.remove('hidden');
       swordSlashEffect?.classList.add('slash');
       swordSlashEffect2?.classList.remove('hidden');
       swordSlashEffect2?.classList.add('slash2');
+      tanjiroImage!.src = './asset/image/tanjiro2.png';
 
       swordslashsound?.play();
       // tanjiroY=-30;
       setTimeout(() => {
           // tanjiroX=newTanjiroX;
           // tanjiroY=newTanjiroY;
-          tanjiroContainer?.classList.remove('bg-red-500');
-          tanjiroContainer?.classList.add('bg-yellow-500');
+          // tanjiroContainer?.classList.remove('bg-red-500');
+          // tanjiroContainer?.classList.add('bg-yellow-500');
           keyLocked=false;
           swordSlashEffect?.classList.add('hidden');
           swordSlashEffect?.classList.remove('slash');
           swordSlashEffect2?.classList.add('hidden');
           swordSlashEffect2?.classList.remove('slash2');
+          tanjiroImage!.src = './asset/image/tanjiro.png';
           // tanjiroContainer.style.left = `${tanjiroX}%`;
           // tanjiroContainer.style.top = `${tanjiroY}%`;
       }, 700);
@@ -141,7 +143,7 @@ function createBloodThread():void{
 
     let bloodThreadX:number=0;
     const thread = document.createElement('div');
-    thread.className = 'absolute border-2 border-black rounded-full text-center text-lg z-3';
+    thread.className = 'absolute  rounded-full text-center text-lg z-3';
     // thread.textContent = '🕸️';
     thread.style.backgroundImage = 'url(./asset/image/spiderweb.png)';
     thread.style.backgroundSize = 'cover';

@@ -70,23 +70,25 @@ document.addEventListener("keydown", function (event) {
             var newTanjiroX = tanjiroX;
             var newTanjiroY = tanjiroY;
             tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.remove('bg-yellow-500');
-            tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.add('bg-red-500');
+            // tanjiroContainer?.classList.add('bg-red-500');
             swordSlashEffect === null || swordSlashEffect === void 0 ? void 0 : swordSlashEffect.classList.remove('hidden');
             swordSlashEffect === null || swordSlashEffect === void 0 ? void 0 : swordSlashEffect.classList.add('slash');
             swordSlashEffect2 === null || swordSlashEffect2 === void 0 ? void 0 : swordSlashEffect2.classList.remove('hidden');
             swordSlashEffect2 === null || swordSlashEffect2 === void 0 ? void 0 : swordSlashEffect2.classList.add('slash2');
+            tanjiroImage.src = './asset/image/tanjiro2.png';
             swordslashsound === null || swordslashsound === void 0 ? void 0 : swordslashsound.play();
             // tanjiroY=-30;
             setTimeout(function () {
                 // tanjiroX=newTanjiroX;
                 // tanjiroY=newTanjiroY;
-                tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.remove('bg-red-500');
-                tanjiroContainer === null || tanjiroContainer === void 0 ? void 0 : tanjiroContainer.classList.add('bg-yellow-500');
+                // tanjiroContainer?.classList.remove('bg-red-500');
+                // tanjiroContainer?.classList.add('bg-yellow-500');
                 keyLocked = false;
                 swordSlashEffect === null || swordSlashEffect === void 0 ? void 0 : swordSlashEffect.classList.add('hidden');
                 swordSlashEffect === null || swordSlashEffect === void 0 ? void 0 : swordSlashEffect.classList.remove('slash');
                 swordSlashEffect2 === null || swordSlashEffect2 === void 0 ? void 0 : swordSlashEffect2.classList.add('hidden');
                 swordSlashEffect2 === null || swordSlashEffect2 === void 0 ? void 0 : swordSlashEffect2.classList.remove('slash2');
+                tanjiroImage.src = './asset/image/tanjiro.png';
                 // tanjiroContainer.style.left = `${tanjiroX}%`;
                 // tanjiroContainer.style.top = `${tanjiroY}%`;
             }, 700);
@@ -126,7 +128,7 @@ messageContainer === null || messageContainer === void 0 ? void 0 : messageConta
 function createBloodThread() {
     var bloodThreadX = 0;
     var thread = document.createElement('div');
-    thread.className = 'absolute border-2 border-black rounded-full text-center text-lg z-3';
+    thread.className = 'absolute  rounded-full text-center text-lg z-3';
     // thread.textContent = '🕸️';
     thread.style.backgroundImage = 'url(./asset/image/spiderweb.png)';
     thread.style.backgroundSize = 'cover';
