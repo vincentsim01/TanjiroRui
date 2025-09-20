@@ -15,11 +15,83 @@ const swordslashsound = document.getElementById('swordslashsound') as HTMLAudioE
 const tanjirobeheadruiContainer = document.getElementById('tanjirobeheadruiContainer') as HTMLDivElement|null;
 const tanjirobeheadrui = document.getElementById('tanjirobeheadrui') as HTMLVideoElement|null;
 const tanjirobeheadruisound = document.getElementById('tanjirobeheadruisound') as HTMLAudioElement|null;
+const ExitButton = document.getElementById('ExitButton') as HTMLButtonElement|null;
+const leaderboardContainer = document.getElementById('leaderboardContainer') as HTMLDivElement|null;
+const buttonContainer = document.getElementById('buttonContainer') as HTMLAudioElement|null;
+const ReallyExit = document.getElementById('ReallyExit') as HTMLButtonElement|null;
 let duelResultTitle = document.getElementById('duelResultTitle') as HTMLHeadingElement|null;
 let duelResultDescription = document.getElementById('duelResultDescription') as HTMLParagraphElement|null;
 let duelLevelMeter:any = document.getElementById('duelLevelMeter');
 let webCounter:number = 0;
 let webSlashedCounter:number = 0;
+let duelLevel:number = 1;
+
+interface Player {
+  name: string;
+  level: number;
+  webPassed :number;
+  webSlashed :number;
+}
+
+let players: Player[] = [];
+
+const nameInput = document.getElementById("name") as HTMLInputElement;
+// const scoreInput = document.getElementById("score") as HTMLInputElement;
+const addBtn = document.getElementById("addBtn") as HTMLButtonElement;
+const list = document.getElementById("leaderboard") as HTMLUListElement;
+
+function reallyExit():void{
+      buttonContainer?.classList.remove('hidden')
+      messageContainer?.classList.add('hidden');
+      duelResultTitle!.textContent = '';
+      duelResultDescription!.textContent = '';
+      leaderboardContainer?.classList.add('hidden');
+      duelLevel=1;
+      webCounter=0;
+      webSlashedCounter=0;
+      webProducingTime = webProducingStarter;
+      duelLevelMeter.textContent = duelLevel.toString();
+}
+
+ReallyExit?.addEventListener("click", reallyExit);
+
+function render() {
+  // sort players by score
+  players.sort((a, b) => b.level - a.level);
+
+  // clear list
+  list.innerHTML = "";
+
+  // add each player to the list
+  players.forEach((p, i) => {
+    const li = document.createElement("li");
+    li.textContent = `${i + 1}. ${p.name} - ${p.level} - ${p.webPassed} - ${p.webSlashed}`;
+    list.appendChild(li);
+  });
+}
+
+addBtn.onclick = () => {
+  const name = nameInput.value.trim();
+  const level = duelLevel;
+  const webPassed = webCounter;
+  const webSlashed = webSlashedCounter;
+
+
+
+  if (!name){
+    alert('please provide name');
+    return;
+  } ;
+
+  players.push({ name, level, webPassed, webSlashed });
+  render();
+  console.log(players);
+
+  nameInput.value = "";
+  addBtn.classList.add('hidden');
+  // scoreInput.value = "";
+};
+
 
 const webProducingStarter:number = 3000;
 let webProducingTime:number = 3000;
@@ -130,13 +202,14 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
 
 });
 
-messageContainer?.addEventListener('click', (e) => {
-    if (e.target !== message) {
-        messageContainer.classList.add('hidden');
-        duelResultTitle!.textContent = '';
-        duelResultDescription!.textContent = '';
-    }
-});
+// messageContainer?.addEventListener('click', (e) => {
+//   const target = e.target as HTMLElement;
+//     if (target.id !== "message" ) {
+//         messageContainer.classList.add('hidden');
+//         duelResultTitle!.textContent = '';
+//         duelResultDescription!.textContent = '';
+//     }
+// });
 
 
 function createBloodThread():void{
@@ -227,7 +300,7 @@ function createBloodThread():void{
 
 let bloodInterval:any = setInterval(createBloodThread, webProducingTime);
 
-let duelLevel:number = 1;
+
 
 duelLevelMeter.textContent = duelLevel.toString();
 
@@ -256,8 +329,19 @@ function nextLevel():void{
   }
 
 
-  messageContainer?.classList.remove('hidden');
+  // messageContainer?.classList.remove('hidden');
   clearInterval(bloodInterval);
   bloodInterval = setInterval(createBloodThread, webProducingTime);
 }
 nextLevelButton?.addEventListener('click', nextLevel);
+
+function exitGame():void{
+    duelResultTitle!.textContent = '';
+    duelResultDescription!.textContent = '';
+    addBtn.classList.remove('hidden');
+
+    leaderboardContainer?.classList.remove('hidden');
+    buttonContainer?.classList.add('hidden')
+}
+
+ExitButton?.addEventListener("click", exitGame);

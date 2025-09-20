@@ -15,11 +15,60 @@ var swordslashsound = document.getElementById('swordslashsound');
 var tanjirobeheadruiContainer = document.getElementById('tanjirobeheadruiContainer');
 var tanjirobeheadrui = document.getElementById('tanjirobeheadrui');
 var tanjirobeheadruisound = document.getElementById('tanjirobeheadruisound');
+var ExitButton = document.getElementById('ExitButton');
+var leaderboardContainer = document.getElementById('leaderboardContainer');
+var buttonContainer = document.getElementById('buttonContainer');
+var ReallyExit = document.getElementById('ReallyExit');
 var duelResultTitle = document.getElementById('duelResultTitle');
 var duelResultDescription = document.getElementById('duelResultDescription');
 var duelLevelMeter = document.getElementById('duelLevelMeter');
 var webCounter = 0;
 var webSlashedCounter = 0;
+var duelLevel = 1;
+var players = [];
+var nameInput = document.getElementById("name");
+// const scoreInput = document.getElementById("score") as HTMLInputElement;
+var addBtn = document.getElementById("addBtn");
+var list = document.getElementById("leaderboard");
+function reallyExit() {
+    buttonContainer === null || buttonContainer === void 0 ? void 0 : buttonContainer.classList.remove('hidden');
+    messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.classList.add('hidden');
+    duelResultTitle.textContent = '';
+    duelResultDescription.textContent = '';
+    leaderboardContainer === null || leaderboardContainer === void 0 ? void 0 : leaderboardContainer.classList.add('hidden');
+    duelLevel = 1;
+    webCounter = 0;
+    webSlashedCounter = 0;
+    webProducingTime = webProducingStarter;
+    duelLevelMeter.textContent = duelLevel.toString();
+}
+ReallyExit === null || ReallyExit === void 0 ? void 0 : ReallyExit.addEventListener("click", reallyExit);
+function render() {
+    // sort players by score
+    players.sort(function (a, b) { return b.level - a.level; });
+    // clear list
+    list.innerHTML = "";
+    // add each player to the list
+    players.forEach(function (p, i) {
+        var li = document.createElement("li");
+        li.textContent = "".concat(i + 1, ". ").concat(p.name, " - ").concat(p.level, " - ").concat(p.webPassed, " - ").concat(p.webSlashed);
+        list.appendChild(li);
+    });
+}
+addBtn.onclick = function () {
+    var name = nameInput.value.trim();
+    var level = duelLevel;
+    var webPassed = webCounter;
+    var webSlashed = webSlashedCounter;
+    if (!name)
+        return;
+    players.push({ name: name, level: level, webPassed: webPassed, webSlashed: webSlashed });
+    render();
+    console.log(players);
+    nameInput.value = "";
+    addBtn.classList.add('hidden');
+    // scoreInput.value = "";
+};
 var webProducingStarter = 3000;
 var webProducingTime = 3000;
 var tanjiroX = 95;
@@ -118,13 +167,14 @@ document.addEventListener("keydown", function (event) {
         // message?.appendChild(pMessage);
     }
 });
-messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.addEventListener('click', function (e) {
-    if (e.target !== message) {
-        messageContainer.classList.add('hidden');
-        duelResultTitle.textContent = '';
-        duelResultDescription.textContent = '';
-    }
-});
+// messageContainer?.addEventListener('click', (e) => {
+//   const target = e.target as HTMLElement;
+//     if (target.id !== "message" ) {
+//         messageContainer.classList.add('hidden');
+//         duelResultTitle!.textContent = '';
+//         duelResultDescription!.textContent = '';
+//     }
+// });
 function createBloodThread() {
     var bloodThreadX = 0;
     var thread = document.createElement('div');
@@ -193,7 +243,6 @@ function createBloodThread() {
     }, 50);
 }
 var bloodInterval = setInterval(createBloodThread, webProducingTime);
-var duelLevel = 1;
 duelLevelMeter.textContent = duelLevel.toString();
 function tryAgain() {
     messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.classList.add('hidden');
@@ -214,8 +263,16 @@ function nextLevel() {
     else if (duelLevel <= 5) {
         webProducingTime = webProducingStarter - duelLevel * 500;
     }
-    messageContainer === null || messageContainer === void 0 ? void 0 : messageContainer.classList.remove('hidden');
+    // messageContainer?.classList.remove('hidden');
     clearInterval(bloodInterval);
     bloodInterval = setInterval(createBloodThread, webProducingTime);
 }
 nextLevelButton === null || nextLevelButton === void 0 ? void 0 : nextLevelButton.addEventListener('click', nextLevel);
+function exitGame() {
+    duelResultTitle.textContent = '';
+    duelResultDescription.textContent = '';
+    addBtn.classList.remove('hidden');
+    leaderboardContainer === null || leaderboardContainer === void 0 ? void 0 : leaderboardContainer.classList.remove('hidden');
+    buttonContainer === null || buttonContainer === void 0 ? void 0 : buttonContainer.classList.add('hidden');
+}
+ExitButton === null || ExitButton === void 0 ? void 0 : ExitButton.addEventListener("click", exitGame);

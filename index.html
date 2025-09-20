@@ -70,10 +70,22 @@
                         <p id="duelResultDescription"> </p>
                         <p id="webCounterDisplay" class="mt-2"></p>
                         <p id="webSlashedCounterDisplay" class="mt-2"></p>
+
                         <div id="buttonContainer" class="flex justify-between items-center">
                             <button id="nextLevelButton" class="hidden  border hover:bg-black hover:text-white text-black font-bold py-2 px-4 active:scale-90 cursor-pointer rounded">Next Level</button>
                             <button id="tryAgainButton" class="ml-3 border hover:bg-black hover:text-white text-black font-bold py-2 px-4 active:scale-90 cursor-pointer rounded">Try Again</button>
+                            <button id="ExitButton" class="ml-3 border hover:bg-black hover:text-white text-black font-bold py-2 px-4 active:scale-90 cursor-pointer rounded">Exit Game</button>
+                        </div>
 
+                        <div id="leaderboardContainer" class="hidden border rounded-md mt-5 p-5 flex flex-col justify-center">
+                            <input id="name" placeholder="Player name">
+                            <!-- <input id="score" type="number" placeholder="Score"> -->
+                            <div class="flex justify-center items-center">                                 
+                                <button id="addBtn" class="hidden ml-3 border hover:bg-black hover:text-white text-black font-bold py-2 px-4 active:scale-90 cursor-pointer rounded">Add</button>
+                                <button id="ReallyExit" class="ml-3 border hover:bg-black hover:text-white text-black font-bold py-2 px-4 active:scale-90 cursor-pointer rounded">Really Exit</button>
+                            </div>
+
+                            <ul id="leaderboard"></ul>
                         </div>
     
                     </div>
